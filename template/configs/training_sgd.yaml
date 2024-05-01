@@ -3,17 +3,27 @@ settings:
   docker:
     required_integrations:
       - sklearn
+      - xgboost  # Ajout de xgboost à la liste des intégrations requises
     requirements:
-      - pyarrow
+      - pandas  # Ajout de pandas, nécessaire pour le traitement des données
+      - xgboost  # Ajout de xgboost, nécessaire pour exécuter le modèle
 
 # configuration of the Model Control Plane
 model:
-  name: breast_cancer_classifier
-  version: sgd
+  name: fraud_detection_classifier
+  version: xgboost  # Mise à jour pour refléter l'usage de XGBoost
   license: Apache 2.0
-  description: A breast cancer classifier
-  tags: ["breast_cancer", "classifier"]
+  description: A classifier model used to predict fraudulent transactions
+  tags: ["fraud_detection", "classifier", "financial_security"]
 
 # Configure the pipeline
 parameters:
-  model_type: "sgd"  # Choose between rf/sgd
+  model_type: "xgboost"  # Mise à jour pour indiquer le type de modèle utilisé
+  test_size: 0.2  # Correspond au pourcentage de division des données pour le test
+  random_state: 42  # Ajout de la seed pour la reproductibilité des résultats
+  num_boost_round: 100  # Nombre de tours pour le boosting
+  max_depth: 6  # Profondeur maximale des arbres
+  eta: 0.3  # Taux d'apprentissage
+  objective: 'binary:logistic'  # Objectif du modèle
+  eval_metric: 'auc'  # Métrique d'évaluation
+  nthread: 4  # Nombre de threads utilisés
