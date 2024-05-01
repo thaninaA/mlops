@@ -1,26 +1,38 @@
+# feature engineering configuration
+feature_engineering:
+  data_file: fraud_test3.csv  # Chemin d'accès au fichier de données
+  transformations:
+    drop_columns:
+      - Unnamed: 0
+      - cc_num
+      - first
+      - last
+      - street
+      - trans_num
+      - dob
+    datetime_conversion:
+      column: trans_date_trans_time
+    encode_columns:
+      - merchant
+      - category
+      - gender
+      - city
+      - state
+      - job
+    numerical_features:
+      - year
+      - month
+      - day
+      - hour
+
 # environment configuration
 settings:
   docker:
     required_integrations:
       - sklearn
-      - xgboost
     requirements:
-      - pyarrow
       - pandas
       - xgboost
 
 # pipeline configuration
-test_size: 0.2  # Mise à jour pour correspondre au code du modèle
-data_file: fraud_test3.csv  # Chemin d'accès au fichier de données utilisé dans le modèle
-
-# model configuration
-model:
-  type: xgboost
-  save_path: xgb_fraud_model.model  # Chemin pour enregistrer le modèle entraîné
-  params:
-    max_depth: 6
-    eta: 0.3
-    objective: 'binary:logistic'
-    eval_metric: 'auc'
-    nthread: 4
-  num_boost_round: 100
+test_size: 0.2  # Correspond au pourcentage de division des données pour le test
