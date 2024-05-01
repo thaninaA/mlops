@@ -3,8 +3,24 @@ settings:
   docker:
     required_integrations:
       - sklearn
+      - xgboost
     requirements:
       - pyarrow
+      - pandas
+      - xgboost
 
 # pipeline configuration
-test_size: 0.35
+test_size: 0.2  # Mise à jour pour correspondre au code du modèle
+data_file: fraud_test3.csv  # Chemin d'accès au fichier de données utilisé dans le modèle
+
+# model configuration
+model:
+  type: xgboost
+  save_path: xgb_fraud_model.model  # Chemin pour enregistrer le modèle entraîné
+  params:
+    max_depth: 6
+    eta: 0.3
+    objective: 'binary:logistic'
+    eval_metric: 'auc'
+    nthread: 4
+  num_boost_round: 100
